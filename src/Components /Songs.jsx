@@ -1,7 +1,6 @@
-import Navbar from "./Navbar";
-import MyCarousel from "./Carousel";
-
-function Home({ isLogin, setIsLogin }) {
+import MyCarousel from './Carousel'
+import AudioPlayer from './AudioPlayer'
+export default function Songs({isLogin}){
     const carousels = [
         { title: "Trending Songs", api: 'https://academics.newtonschool.co/api/v1/musicx/song?featured=Trending%20songs' },
         { title: "Top 20 of this week", api: "https://academics.newtonschool.co/api/v1/musicx/song?featured=Top 20 of this week" },
@@ -10,17 +9,18 @@ function Home({ isLogin, setIsLogin }) {
         { title: "Happy", api: "https://academics.newtonschool.co/api/v1/musicx/song?mood=happy" },
         { title: "Romantic", api: "https://academics.newtonschool.co/api/v1/musicx/song?mood=romantic" },
         { title: "Excited", api: "https://academics.newtonschool.co/api/v1/musicx/song?mood=excited" },
-        { title: "Sad", api: "https://academics.newtonschool.co/api/v1/musicx/song?mood=sad" }
+        { title: "Sad", api: "https://academics.newtonschool.co/api/v1/musicx/song?mood=sad" },
     ];
-
     return (
-        <>
-            <Navbar isLogin={isLogin} setIsLogin={setIsLogin} />
-            {carousels.map((carousel, index) => (
-                <MyCarousel key={index} title={carousel.title} api={carousel.api} />
-            ))}
-        </>
-    );
+        <div className='h-full bg-black pt-0'>
+            <div className="flex">
+                <div className='bg-black ml-[17%] overflow-y-auto w-full'>
+                    {carousels.map((carousel, index) => (
+                        <MyCarousel key={index} title={carousel.title} api={carousel.api} isLogin={isLogin} value = {5}/>
+                    ))}
+                </div>
+            </div>
+            <AudioPlayer/>
+        </div>
+    )
 }
-
-export default Home;

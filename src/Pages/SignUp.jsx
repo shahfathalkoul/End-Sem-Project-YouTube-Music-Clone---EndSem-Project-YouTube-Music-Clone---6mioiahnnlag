@@ -1,26 +1,7 @@
-import * as React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-
-function InputField({ label, type, id, placeholder, value, onChange }) {
-    return (
-        <div className="flex flex-col justify-center p-1 mt-3 rounded-xl bg-black bg-opacity-0 text-neutral-500">
-            <label htmlFor={id} className="sr-only">
-                {label}
-            </label>
-            <input
-                type={type}
-                id={id}
-                placeholder={placeholder}
-                aria-label={label}
-                className="justify-center items-start px-3 py-4 bg-white rounded-md border border-solid border-stone-300 max-md:pr-5"
-                value={value}
-                onChange={onChange}
-            />
-        </div>
-    );
-}
+import InputField from '../Components /InputField'
+import {assets} from '../assets/assets'
 
 function SignUp() {
     const [name, setName] = useState('');
@@ -29,34 +10,62 @@ function SignUp() {
     const [response, setResponse] = useState(null);
     const nav = useNavigate();
 
+    const validateEmail = (email) => {
+        return email.includes('@');
+    };
+
+    const validatePassword = (password) => {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&*()_]).{6,}$/;
+        return regex.test(password);
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = { name: name, email: email, password: password, appType: 'music' };
+
+        if (!name || !email || !password) {
+            alert('All fields are required.');
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            alert('Invalid email address.');
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            alert('Password must be at least 6 characters long and include both lowercase, uppercase letters, and symbols.');
+            setPassword('')
+            return;
+        }
+
+        const data = { name, email, password, appType: 'music' };
+
         try {
             const res = await fetch('https://academics.newtonschool.co/api/v1/user/signup', {
                 method: 'POST',
                 headers: {
                     'accept': 'application/json',
-                    'projectID': 'bng7dtu7whwk',
+                    'projectID': 'evyu4sw99lon',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             });
-            const result = await res.json();
-            if (result.status === 'success') {
 
+            const result = await res.json();
+
+            if (result.status === 'success') {
+                alert('Sign up successful!');
                 nav('/signin');
-            }
-            else {
+            } else if (result.message === 'User already exists') {
+                alert('The User already exists');
+            } else {
                 alert(result.message);
-                nav('/signin');
             }
         } catch (error) {
             console.error('Error:', error);
             setResponse({ error: 'Failed to sign up. Please try again.' });
         }
     };
-
 
     return (
         <div className="flex flex-col justify-center py-20 bg-black min-h-screen">
@@ -66,8 +75,7 @@ function SignUp() {
                         <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                             <div className="flex flex-col grow max-md:mt-10">
                                 <img
-                                    loading="lazy"
-                                    src="https://s3-alpha-sig.figma.com/img/3f13/f45e/752db8f22839e06d0ea07ec6b4dae04a?Expires=1717372800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=dAxkcJE8CM8soM5yJd-7OK7MXp0VwT7IhixC4I3HJjJTqFPVq7iEmMQqMVopygV5vISazTN0kFvZw2s9j1uHVSdddNuS9Bryi2wPYrT2YNUN2C8Qif1LR5cou7us1K-6gcnPujeoRn-YHl1OnZLbbpx90Eis7L-lJ66epAPQQpZRO0mjfNef~Mi0YXTrmipmfkr4ha3Vw08ekYEMaKN6WSriMDeMI8iNoVSOxvGXxl67RPpLDuwjQJ-LkPXfzgCTJ01PNOgvxz0PGb9kIGW4~68vaWDKjXSOBW5ErzU0VjRfCtONbivkCGP-DEV1uDCZxY8zu98XkhjW4jzBUEkxdw__"
+                                    src={assets.googleLogo}
                                     alt="Account creation icon"
                                     className="aspect-[0.97] w-[33px]"
                                 />
@@ -116,7 +124,7 @@ function SignUp() {
                     </div>
                 </section>
             </main>
-            {response && <div className="text-white">{JSON.stringify(response)}</div>}
+            {response && <div className="text-white">{response.error}</div>}
         </div>
     );
 }

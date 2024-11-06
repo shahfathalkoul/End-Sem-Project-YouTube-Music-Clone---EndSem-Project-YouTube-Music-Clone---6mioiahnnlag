@@ -1,0 +1,47 @@
+.custom-carousel .p-carousel .p-carousel-prev,
+.custom-carousel .p-carousel .p-carousel-next {
+    top: 10px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    border: 1px solid rgb(39, 39, 42);
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+    /* Added transform transition */
+}
+
+.custom-carousel .p-carousel .p-carousel-prev {
+    right: 50px;
+}
+
+.custom-carousel .p-carousel .p-carousel-next {
+    right: 10px;
+}
+
+/* Hover effect with movement */
+.custom-carousel .p-carousel .p-carousel-prev:hover,
+.custom-carousel .p-carousel .p-carousel-next:hover {
+    background: rgb(39, 39, 42);
+    border: 1px solid lightgray;
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
+}
+
+.custom-carousel .p-carousel .p-carousel-prev.p-carousel-prev-disabled,
+.custom-carousel .p-carousel .p-carousel-next.p-carousel-next-disabled,
+.custom-carousel .p-carousel .p-carousel-prev:disabled,
+.custom-carousel .p-carousel .p-carousel-next:disabled {
+    color: rgb(39, 39, 42) !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    cursor: not-allowed !important;
+}
+
+
+.custom-carousel .p-carousel .p-carousel-prev:hover,
+.custom-carousel .p-carousel .p-carousel-next:hover {
+    background: rgb(39, 39, 42);
+    border: 1px solid lightgray;
+}

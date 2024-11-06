@@ -1,11 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './css/main.css';
 import App from './App';
-
+import './index.css';
+import {AudioProvider} from './context/AudioContext'
+// import { GoogleOAuthProvider } from '@react-oauth/google';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+      <AudioProvider>
+      {/*<GoogleOAuthProvider clientId="13870001096-r71e1mbam2rkj293i7pedshlg4g5i68j.apps.googleusercontent.com">*/}
+          <App />
+      </AudioProvider>
+      {/*</GoogleOAuthProvider>;*/}
+
   </React.StrictMode>
 );
